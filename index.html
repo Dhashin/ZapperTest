@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="./styling.css">
+    <script src="./main.js">
+    </script>
+</head>
+<h1>Zapper Test</h1>
+<h2>Question: Create a date picker using VanillaJS</h2>
+<body>
+<p></p>
+<p>
+
+    <input type="date" name="datePickerInput" id="datePickerInput" >
+    <button name="datePickerButton" id="datePickerButton" type="button" onclick="openDatePicker()">
+        <img src="./datePickerIcon.png">
+    </button>
+</p>
+<p>
+    <span>Testing Section</span>
+    <br/>
+    <label>Input:</label>
+    <input type="number" id="inputBox" name="inputBox">
+    <button type="button" onclick="calculate()">Calculate</button>
+    <br/>
+    <button type="button" onclick="displayIndex()">Calculate</button>
+    <br/>
+    <label>Answer:  </label>
+    <label id="answer" name="answer"></label>
+
+    <br/>
+</p>
+
+<div id="datePicker">
+    <table id="datePickerTable">
+        <thead>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Year</td>
+            <td></td>
+            <td></td>
+            <td></td>
+
+        </tr>
+        <tr>
+            <td><-</td>
+            <td></td>
+            <td></td>
+            <td>Month</td>
+            <td></td>
+            <td></td>
+            <td>-></td>
+
+        </tr>
+
+        </thead>
+        <tbody id="datePickerTableBody">
+        <tr>
+            <th colspan="1">S</th>
+            <th colspan="1">M</th>
+            <th colspan="1">T</th>
+            <th colspan="1">W</th>
+            <th colspan="1">T</th>
+            <th colspan="1">F</th>
+            <th colspan="1">S</th>
+        </tr>
+
+
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>
