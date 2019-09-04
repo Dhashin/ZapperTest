@@ -2,76 +2,92 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="./styling.css">
-    <script src="./main.js">
-    </script>
+
 </head>
 <h1>Zapper Test</h1>
 <h2>Question: Create a date picker using VanillaJS</h2>
-<body>
+<body id="theBody">
 <p></p>
 <p>
-
-    <input type="date" name="datePickerInput" id="datePickerInput" >
+    <input type="date" name="datePickerInput" id="datePickerInput">
     <button name="datePickerButton" id="datePickerButton" type="button" onclick="openDatePicker()">
         <img src="./datePickerIcon.png">
     </button>
 </p>
-<p>
-    <span>Testing Section</span>
-    <br/>
-    <label>Input:</label>
-    <input type="number" id="inputBox" name="inputBox">
-    <button type="button" onclick="calculate()">Calculate</button>
-    <br/>
-    <button type="button" onclick="displayIndex()">Calculate</button>
-    <br/>
-    <label>Answer:  </label>
-    <label id="answer" name="answer"></label>
+<table id="datePickerTable">
+    <thead>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            <button id="tableYear" onclick="populateYearTable()"></button>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            <button onclick="decrementMonth()"><-</button>
+        </td>
+        <td></td>
+        <td></td>
+        <td id="tableMonth"></td>
+        <td></td>
+        <td></td>
+        <td>
+            <button onclick="incrementMonth()">-></button>
+        </td>
 
-    <br/>
-</p>
+    </tr>
 
-<div id="datePicker">
-    <table id="datePickerTable">
-        <thead>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>Year</td>
-            <td></td>
-            <td></td>
-            <td></td>
+    </thead>
+    <tbody id="datePickerTableBody">
+    <tr>
 
-        </tr>
-        <tr>
-            <td><-</td>
-            <td></td>
-            <td></td>
-            <td>Month</td>
-            <td></td>
-            <td></td>
-            <td>-></td>
+    </tr>
 
-        </tr>
+    </tbody>
+</table>
+<table id="dateTable" style="border: 1px solid black">
+    <thead style="border: 1px solid black; background: lightgrey">
+    <tr>
+        <th>Sun</th>
+        <th>Mon</th>
+        <th>Tue</th>
+        <th>Wed</th>
+        <th>Thu</th>
+        <th>Fri</th>
+        <th>Sat</th>
+    </tr>
+    </thead>
+    <tbody id="dateTableBody"></tbody>
+</table>
 
-        </thead>
-        <tbody id="datePickerTableBody">
-        <tr>
-            <th colspan="1">S</th>
-            <th colspan="1">M</th>
-            <th colspan="1">T</th>
-            <th colspan="1">W</th>
-            <th colspan="1">T</th>
-            <th colspan="1">F</th>
-            <th colspan="1">S</th>
-        </tr>
+<table id="yearTable" style="visibility: hidden">
+    <thead>
+    <tr>
+        <td></td>
+        <td>
+            <button id="increaseYear" onclick="incrementYear()" style="float:right"> +</button>
+        </td>
+        <td>
+            <button id="back" onclick="back()">Back</button>
+        </td>
+        <td>
+            <button id="decreaseYear" onclick="decrementYear()"> -</button>
+        </td>
+        <td></td>
+    </tr>
+    </thead>
+    <tbody id="yearTableBody"></tbody>
 
 
-        </tbody>
-    </table>
-</div>
+</table>
 
 
+<script src="./main.js">
+</script>
 </body>
 </html>
