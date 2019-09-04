@@ -11,6 +11,15 @@ var datePickerObj = [{month: "Jan", numberOfDays: 31, intValue: 0},
     {month: "Nov", numberOfDays: 30, intValue: 10},
     {month: "Dec", numberOfDays: 31, intValue: 11}
 ];
+
+var dayObj=[{day:"Sunday", intValue : 0},
+{day:"Monday", intValue : 1},
+{day:"Tuesday", intValue : 2},
+{day:"Wednesday", intValue : 3},
+{day:"Thursday", intValue : 4},
+{day:"Friday", intValue : 5},
+{day:"Saterday", intValue : 6}
+];
 var showDatePicker = false;
 var showYearPicker = false;
 var date = new Date();
@@ -33,17 +42,17 @@ var maxYear =2019;
 
 tableMonth.innerHTML = getMonthInFull(currentMonth);
 tableYear.innerHTML = currentYear;
-document.getElementById('datePickerTable').style.visibility = 'hidden';
+document.getElementById('datePickerDiv').style.visibility = 'hidden';
 
 
 function openDatePicker() {
     console.log("Setting the date");
     if (showDatePicker == true) {
         showDatePicker = false;
-        document.getElementById('datePickerTable').style.visibility = 'hidden';
+        document.getElementById('datePickerDiv').style.visibility = 'hidden';
     } else {
         showDatePicker = true;
-        document.getElementById('datePickerTable').style.visibility = 'visible';
+        document.getElementById('datePickerDiv').style.visibility = 'visible';
     }
     document.getElementById("datePickerInput").innerHTML = date;
     populateCalender();
@@ -59,25 +68,119 @@ function isLeapYear(selectedYear) {
 }
 
 function populateCalender() {
+dateTable.innerHTML="";
+var monthDays=31;
     var tempDate = new Date();
+     for (var i=0;i<datePickerObj.length;i++){
+     if(currentMonth==datePickerObj[i].intValue){
+     monthDays=datePickerObj[i].numberOfDays;
+      console.log("MONTHDAYS------"+monthDays);
+
+     }
+
+     }
+
+
+
+
+
+    var lengthOfMonth = monthDays;
+    var postNumberOfDays =0;
+    var prenumberOfDays =0;
+    var totalDays =0;
+
     tempDate.setDate(1);
     tempDate.setFullYear(currentYear);
     tempDate.setMonth(currentMonth);
     var iteratedDate = 0;
     var tempDay = tempDate.getDay();
-    for(var a=0;a<5;a++){
+
+    console.log("TEMPDATE------"+tempDate);
+    console.log("TEMPDAY------"+tempDay); // offset
+    prenumberOfDays = tempDay;
+    totalDays = prenumberOfDays + monthDays;
+
+
+
+
+    var tempDayIntValue;
+
+    while(totalDays > 0){
+
         let trNode = document.createElement("tr");
+
         for(var i =0;i<7;i++){
+            totalDays-- ;
+
+
             let tdNode = document.createElement("td");
             tdNode.setAttribute("style", "text-align:center")
 
             let button = document.createElement("button");
-            button.innerHTML = iteratedDate;
+
+            if(prenumberOfDays > 0){
+                button.innerHTML = "0";
+                prenumberOfDays--;
+            } else if(monthDays > 0){
+                button.innerHTML = lengthOfMonth +1 - monthDays;
+                monthDays--;
+            } else {
+                postNumberOfDays++;
+                button.innerHTML = postNumberOfDays;
+            }
+
+
             tdNode.appendChild(button);
+
+
+
             trNode.appendChild(tdNode);
         }
         dateTable.appendChild(trNode)
+
     }
+
+
+
+
+//    for(var a=0;a<5;a++){
+//        let trNode = document.createElement("tr");
+//        for(var i =0;i<7;i++){
+//            let tdNode = document.createElement("td");
+//            tdNode.setAttribute("style", "text-align:center")
+//
+//            if(a==0){
+//            if(iteratedDate==0){
+//            for (var b=0;b<dayObj.length;b++){
+//            if(tempDay==dayObj[b].intValue){
+//            tempDayIntValue=dayObj[b].intValue;
+//            }
+//            }
+//            if(tempDayIntValue==a){
+//            iteratedDate++;
+//                         let button = document.createElement("button");
+//                                    button.innerHTML = iteratedDate;
+//                                    tdNode.appendChild(button);
+//                                    }
+//
+//            }else{
+//            iteratedDate++;
+//                         let button = document.createElement("button");
+//                                    button.innerHTML = iteratedDate;
+//                                    tdNode.appendChild(button);
+//            }
+//            }else{
+//            iteratedDate++;
+//             let button = document.createElement("button");
+//                        button.innerHTML = iteratedDate;
+//                        tdNode.appendChild(button);
+//            }
+//
+//
+//            trNode.appendChild(tdNode);
+//        }
+//        dateTable.appendChild(trNode)
+//    }
 
 
 
@@ -118,6 +221,7 @@ function incrementMonth() {
     if (currentMonth != 11) {
         currentMonth += 1;
         tableMonth.innerHTML = getMonthInFull(currentMonth);
+        populateCalender();
         console.log("DATEPICKER- date incremented");
     }
 }
@@ -126,13 +230,14 @@ function decrementMonth() {
     if (currentMonth != 0) {
         currentMonth -= 1;
         tableMonth.innerHTML = getMonthInFull(currentMonth);
+        populateCalender();
         console.log("DATEPICKER- date decremented");
     }
 }
 
 function populateYearTable() {
     if(showYearPicker==false) {
-        document.getElementById('datePickerTable').style.visibility = 'hidden';
+        document.getElementById('datePickerDiv').style.visibility = 'hidden';
         showDatePicker = false;
         document.getElementById('yearTable').style.visibility = 'visible';
         showYearPicker = true;
@@ -155,7 +260,7 @@ function populateYearTable() {
 
         yearTable.appendChild(tbodyNode);
     }else {
-        document.getElementById('datePickerTable').style.visibility = 'visible';
+        document.getElementById('datePickerDiv').style.visibility = 'visible';
         showDatePicker = true;
         document.getElementById('yearTable').style.visibility = 'hidden';
         showYearPicker = false;
@@ -164,7 +269,7 @@ function populateYearTable() {
 }
 
 function selectYear(selectedYear) {
-    document.getElementById('datePickerTable').style.visibility = 'visible';
+    document.getElementById('datePickerDiv').style.visibility = 'visible';
     showDatePicker=false;
     document.getElementById('yearTable').style.visibility = 'hidden';
     showYearPicker=false;
@@ -220,7 +325,7 @@ function decrementYear(){
 }
 
 function back() {
-    document.getElementById('datePickerTable').style.visibility = 'visible';
+    document.getElementById('datePickerDiv').style.visibility = 'visible';
     showDatePicker = true;
     document.getElementById('yearTable').style.visibility = 'hidden';
     showYearPicker = false;
