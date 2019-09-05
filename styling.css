@@ -15,12 +15,9 @@ button {
     height: 20px;
 }
 
-.chevronImg {
-    width: 20px;
-    height: 20px;
-    position: relative;
-    top: 0;
-    left: 0;
+
+.alignMonth{
+    padding-left: 10px;
 }
 
 

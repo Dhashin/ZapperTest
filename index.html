@@ -36,7 +36,7 @@
             </td>
             <td></td>
             <td></td>
-            <td id="tableMonth"></td>
+            <td id="tableMonth" class="alignMonth"></td>
             <td></td>
             <td></td>
             <td>
@@ -70,18 +70,18 @@
     </table>
 </div>
 
-<table id="yearTable" style="visibility: hidden">
+<table id="yearTable" style="display: none">
     <thead>
     <tr>
         <td></td>
         <td>
-            <button id="increaseYear" onclick="incrementYear()" style="float:right"> +</button>
+            <button id="decreaseYear" onclick="decrementYear()" style="float:right"> <  </button>
         </td>
         <td>
             <button id="back" onclick="back()">Back</button>
         </td>
         <td>
-            <button id="decreaseYear" onclick="decrementYear()"> -</button>
+            <button id="increaseYear" onclick="incrementYear()"> > </button>
         </td>
         <td></td>
     </tr>

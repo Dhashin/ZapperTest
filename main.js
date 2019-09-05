@@ -20,8 +20,8 @@ var dayObj = [{day: "Sunday", intValue: 0},
     {day: "Friday", intValue: 5},
     {day: "Saterday", intValue: 6}
 ];
-var showDatePicker = false;
-var showYearPicker = false;
+var isDatePickerVisible = false;
+var isYearPickerVisible = false;
 var date = new Date();
 var currentDate = date.getDate();
 var currentMonth = date.getMonth();
@@ -36,24 +36,50 @@ let tbodyNode = document.getElementById("yearTableBody");
 let dateTable = document.getElementById("dateTableBody");
 let datePickerInput = document.getElementById("datePickerInput");
 var minYear = 2019;
+var maxYear;
 
 
 tableMonth.innerHTML = getMonthInFull(currentMonth);
 tableYear.innerHTML = currentYear;
-document.getElementById('datePickerDiv').style.visibility = 'hidden';
+hideDatePicker();
+
+//Handles variables that need to be changed for hiding datepicker
+function hideDatePicker() {
+    document.getElementById('datePickerDiv').style.display = 'none';
+    isDatePickerVisible = false;
+}
+
+//Handles variables that need to be changed for showing datepicker
+function showDatePicker() {
+    document.getElementById('datePickerDiv').style.display = 'block';
+    isDatePickerVisible = true;
+}
+
+//Handles all variables that need to change when hiding datepicker
+function hideYearPicker() {
+    document.getElementById('yearTable').style.display = 'none';
+    isYearPickerVisible = false;
+}
+
+//Handles all variables that need to change when hiding datepicker
+function showYearPicker() {
+    document.getElementById('yearTable').style.display = 'block';
+    isYearPickerVisible = true;
+}
 
 //Manages the opening on closing of the datepicker on user click
 function openDatePicker() {
     console.log("Setting the date");
-    if (showDatePicker == true) {
-        showDatePicker = false;
-        document.getElementById('datePickerDiv').style.visibility = 'hidden';
+    if (isDatePickerVisible == true) {
+        hideDatePicker();
+        hideYearPicker();
     } else {
-        showDatePicker = true;
-        document.getElementById('datePickerDiv').style.visibility = 'visible';
+        showDatePicker();
+        hideYearPicker();
+        tableYear.innerHTML = currentYear;
+        tableMonth.innerHTML = getMonthInFull(currentMonth);
+        populateCalender();
     }
-    document.getElementById("datePickerInput").innerHTML = date;
-    populateCalender();
 }
 
 //Checks if the year is a leap year and returns number of days for month of February
@@ -155,14 +181,15 @@ function selectDate(date, month) {
         currentMonth += 1
     }
     if (currentMonth == -1) {
-        currentYear -= 1;
+        currentYear = parseInt(currentYear, 10) - 1;
         currentMonth = 11;
     } else if (currentMonth == 12) {
-        currentYear += 1;
+        currentYear = parseInt(currentYear, 10) + 1;
         currentMonth = 0;
     }
     var dateString = currentDate + "-" + getMonthInFull(currentMonth) + "-" + currentYear;
     datePickerInput.value = dateString;
+    hideDatePicker();
     console.log("DATE--------------------" + dateString);
 }
 
@@ -196,18 +223,21 @@ function decrementMonth() {
     }
 }
 
+
+
 //Populate the table that allows for selection of different year
 function populateYearTable() {
-    if (showYearPicker == false) {
-        document.getElementById('datePickerDiv').style.visibility = 'hidden';
-        showDatePicker = false;
-        document.getElementById('yearTable').style.visibility = 'visible';
-        showYearPicker = true;
-        //let tbodyNode = document.createElement("tbody");
+    if (isYearPickerVisible == false) {
+        hideDatePicker();
+        showYearPicker();
+        minYear=currentYear;
         tbodyNode.innerHTML = "";
         for (var i = 0; i < 5; i++) {
             let trNode = document.createElement("tr");
             for (var a = 0; a < 5; a++) {
+                if(i==0 && a ==0){
+                    maxYear=minYear;
+                }
                 minYear--;
                 let tdNode = document.createElement("td");
                 let buttonNode = document.createElement("button");
@@ -222,20 +252,18 @@ function populateYearTable() {
 
         yearTable.appendChild(tbodyNode);
     } else {
-        document.getElementById('datePickerDiv').style.visibility = 'visible';
-        showDatePicker = true;
-        document.getElementById('yearTable').style.visibility = 'hidden';
-        showYearPicker = false;
+
+        hideYearPicker();
+        showDatePicker();
+        populateCalender();
     }
 
 }
 
 //On selection of year, populate correct variables and go back to date picker
 function selectYear(selectedYear) {
-    document.getElementById('datePickerDiv').style.visibility = 'visible';
-    showDatePicker = false;
-    document.getElementById('yearTable').style.visibility = 'hidden';
-    showYearPicker = false;
+    hideYearPicker();
+    showDatePicker();
     setYear(selectedYear);
     populateCalender();
 
@@ -251,10 +279,14 @@ function setYear(year) {
 //Increment the total number of years in the year table
 function incrementYear() {
     tbodyNode.innerHTML = "";
+    minYear = parseInt(maxYear, 10) + 25;
     for (var i = 0; i < 5; i++) {
         let trNode = document.createElement("tr");
         for (var a = 0; a < 5; a++) {
-            minYear++;
+            if(i==0 && a ==0){
+                maxYear=minYear;
+            }
+            minYear--;
             let tdNode = document.createElement("td");
             let buttonNode = document.createElement("button");
             buttonNode.setAttribute("onclick", "selectYear(this.innerHTML)")
@@ -275,6 +307,9 @@ function decrementYear() {
     for (var i = 0; i < 5; i++) {
         let trNode = document.createElement("tr");
         for (var a = 0; a < 5; a++) {
+            if(i==0 && a ==0){
+                maxYear=minYear;
+            }
             minYear--;
             let tdNode = document.createElement("td");
             let buttonNode = document.createElement("button");
@@ -292,10 +327,8 @@ function decrementYear() {
 
 //Allow user to return to datepicker from year table without selecting a year
 function back() {
-    document.getElementById('datePickerDiv').style.visibility = 'visible';
-    showDatePicker = true;
-    document.getElementById('yearTable').style.visibility = 'hidden';
-    showYearPicker = false;
+    showDatePicker();
+    hideYearPicker();
 }
 
 
