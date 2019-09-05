@@ -12,24 +12,21 @@ var datePickerObj = [{month: "Jan", numberOfDays: 31, intValue: 0},
     {month: "Dec", numberOfDays: 31, intValue: 11}
 ];
 
-var dayObj=[{day:"Sunday", intValue : 0},
-{day:"Monday", intValue : 1},
-{day:"Tuesday", intValue : 2},
-{day:"Wednesday", intValue : 3},
-{day:"Thursday", intValue : 4},
-{day:"Friday", intValue : 5},
-{day:"Saterday", intValue : 6}
+var dayObj = [{day: "Sunday", intValue: 0},
+    {day: "Monday", intValue: 1},
+    {day: "Tuesday", intValue: 2},
+    {day: "Wednesday", intValue: 3},
+    {day: "Thursday", intValue: 4},
+    {day: "Friday", intValue: 5},
+    {day: "Saterday", intValue: 6}
 ];
 var showDatePicker = false;
 var showYearPicker = false;
 var date = new Date();
 var currentDate = date.getDate();
-var currentDay = date.getDay();
 var currentMonth = date.getMonth();
 var currentYear = date.getFullYear();
-let body = document.getElementById("theBody");
-let tableHead = document.getElementById("thead");
-let tableBody = document.getElementById("datePickerTableBody");
+
 let tableYear = document.getElementById("tableYear");
 let tableMonth = document.getElementById("tableMonth");
 
@@ -37,14 +34,15 @@ let yearTable = document.getElementById("yearTable");
 let tbodyNode = document.getElementById("yearTableBody");
 
 let dateTable = document.getElementById("dateTableBody");
-var minYear =2019;
-var maxYear =2019;
+let datePickerInput = document.getElementById("datePickerInput");
+var minYear = 2019;
+
 
 tableMonth.innerHTML = getMonthInFull(currentMonth);
 tableYear.innerHTML = currentYear;
 document.getElementById('datePickerDiv').style.visibility = 'hidden';
 
-
+//Manages the opening on closing of the datepicker on user click
 function openDatePicker() {
     console.log("Setting the date");
     if (showDatePicker == true) {
@@ -58,6 +56,7 @@ function openDatePicker() {
     populateCalender();
 }
 
+//Checks if the year is a leap year and returns number of days for month of February
 function isLeapYear(selectedYear) {
     var remainder = selectedYear % 4;
     if (remainder == 0) {
@@ -67,27 +66,32 @@ function isLeapYear(selectedYear) {
     }
 }
 
+//populates the days of the month for every month
 function populateCalender() {
-dateTable.innerHTML="";
-var monthDays=31;
+    datePickerObj[1].numberOfDays = isLeapYear(currentYear);
+    dateTable.innerHTML = "";
+    var monthDays = 31;
+    var previousMonthDays;
     var tempDate = new Date();
-     for (var i=0;i<datePickerObj.length;i++){
-     if(currentMonth==datePickerObj[i].intValue){
-     monthDays=datePickerObj[i].numberOfDays;
-      console.log("MONTHDAYS------"+monthDays);
+    for (var i = 0; i < datePickerObj.length; i++) {
+        if (currentMonth == datePickerObj[i].intValue) {
+            monthDays = datePickerObj[i].numberOfDays;
+            if (i == 0) {
+                previousMonthDays = datePickerObj[11].numberOfDays;
+            } else {
+                previousMonthDays = datePickerObj[i - 1].numberOfDays;
+            }
+            console.log("MONTHDAYS------" + monthDays);
 
-     }
+        }
 
-     }
-
-
-
+    }
 
 
     var lengthOfMonth = monthDays;
-    var postNumberOfDays =0;
-    var prenumberOfDays =0;
-    var totalDays =0;
+    var postNumberOfDays = 0;
+    var prenumberOfDays = 0;
+    var totalDays = 0;
 
     tempDate.setDate(1);
     tempDate.setFullYear(currentYear);
@@ -95,22 +99,17 @@ var monthDays=31;
     var iteratedDate = 0;
     var tempDay = tempDate.getDay();
 
-    console.log("TEMPDATE------"+tempDate);
-    console.log("TEMPDAY------"+tempDay); // offset
+    console.log("TEMPDATE------" + tempDate);
+    console.log("TEMPDAY------" + tempDay); // offset
     prenumberOfDays = tempDay;
     totalDays = prenumberOfDays + monthDays;
 
-
-
-
-    var tempDayIntValue;
-
-    while(totalDays > 0){
+    while (totalDays > 0) {
 
         let trNode = document.createElement("tr");
 
-        for(var i =0;i<7;i++){
-            totalDays-- ;
+        for (var i = 0; i < 7; i++) {
+            totalDays--;
 
 
             let tdNode = document.createElement("td");
@@ -118,96 +117,56 @@ var monthDays=31;
 
             let button = document.createElement("button");
 
-            if(prenumberOfDays > 0){
-                button.innerHTML = "0";
+            if (prenumberOfDays > 0) {
+
+                var previousMonthDay = (previousMonthDays - tempDay) + 1;
+                button.innerHTML = previousMonthDay;
+                button.setAttribute("class", "greyedOut");
+                button.setAttribute("onclick", "selectDate(this.innerHTML, 0)");
+                tempDay--;
                 prenumberOfDays--;
-            } else if(monthDays > 0){
-                button.innerHTML = lengthOfMonth +1 - monthDays;
+
+            } else if (monthDays > 0) {
+                button.innerHTML = lengthOfMonth + 1 - monthDays;
+                button.setAttribute("onclick", "selectDate(this.innerHTML, 1)");
                 monthDays--;
             } else {
                 postNumberOfDays++;
                 button.innerHTML = postNumberOfDays;
+                button.setAttribute("class", "greyedOut");
+                button.setAttribute("onclick", "selectDate(this.innerHTML, 2)");
             }
 
 
             tdNode.appendChild(button);
-
-
-
             trNode.appendChild(tdNode);
         }
         dateTable.appendChild(trNode)
 
     }
-
-
-
-
-//    for(var a=0;a<5;a++){
-//        let trNode = document.createElement("tr");
-//        for(var i =0;i<7;i++){
-//            let tdNode = document.createElement("td");
-//            tdNode.setAttribute("style", "text-align:center")
-//
-//            if(a==0){
-//            if(iteratedDate==0){
-//            for (var b=0;b<dayObj.length;b++){
-//            if(tempDay==dayObj[b].intValue){
-//            tempDayIntValue=dayObj[b].intValue;
-//            }
-//            }
-//            if(tempDayIntValue==a){
-//            iteratedDate++;
-//                         let button = document.createElement("button");
-//                                    button.innerHTML = iteratedDate;
-//                                    tdNode.appendChild(button);
-//                                    }
-//
-//            }else{
-//            iteratedDate++;
-//                         let button = document.createElement("button");
-//                                    button.innerHTML = iteratedDate;
-//                                    tdNode.appendChild(button);
-//            }
-//            }else{
-//            iteratedDate++;
-//             let button = document.createElement("button");
-//                        button.innerHTML = iteratedDate;
-//                        tdNode.appendChild(button);
-//            }
-//
-//
-//            trNode.appendChild(tdNode);
-//        }
-//        dateTable.appendChild(trNode)
-//    }
-
-
-
 }
 
-function getModularValue(selectedYear) {
-    var answer = selectedYear % 4;
-    console.log("displayModularValueCalled");
-    console.log("displayModularValueCalled answer :  " + answer);
-
-    return answer;
+//When user selects date, manages the logic for post and previous month selections and appends the input field
+function selectDate(date, month) {
+    currentDate = date;
+    if (month == 0) {
+        currentMonth -= 1;
+    } else if (month == 2) {
+        currentMonth += 1
+    }
+    if (currentMonth == -1) {
+        currentYear -= 1;
+        currentMonth = 11;
+    } else if (currentMonth == 12) {
+        currentYear += 1;
+        currentMonth = 0;
+    }
+    var dateString = currentDate + "-" + getMonthInFull(currentMonth) + "-" + currentYear;
+    datePickerInput.value = dateString;
+    console.log("DATE--------------------" + dateString);
 }
 
-function calculate() {
-
-    var inputYear = document.getElementById("inputBox").value;
-    document.getElementById("answer").innerHTML = getModularValue(inputYear);
-}
-
-function displayIndex() {
-
-    document.getElementById("answer").innerHTML = datePickerObj[0].month;
-}
-
-
-
-
+//Returns the full month from its numeric value
 function getMonthInFull(month) {
     for (var i = 0; i < datePickerObj.length; i++) {
         if (datePickerObj[i].intValue == month) {
@@ -217,6 +176,7 @@ function getMonthInFull(month) {
     }
 }
 
+//Increments the month on calender and repopulates days
 function incrementMonth() {
     if (currentMonth != 11) {
         currentMonth += 1;
@@ -226,6 +186,7 @@ function incrementMonth() {
     }
 }
 
+//Decrements the month on calender and repopulates days
 function decrementMonth() {
     if (currentMonth != 0) {
         currentMonth -= 1;
@@ -235,14 +196,15 @@ function decrementMonth() {
     }
 }
 
+//Populate the table that allows for selection of different year
 function populateYearTable() {
-    if(showYearPicker==false) {
+    if (showYearPicker == false) {
         document.getElementById('datePickerDiv').style.visibility = 'hidden';
         showDatePicker = false;
         document.getElementById('yearTable').style.visibility = 'visible';
         showYearPicker = true;
         //let tbodyNode = document.createElement("tbody");
-        tbodyNode.innerHTML="";
+        tbodyNode.innerHTML = "";
         for (var i = 0; i < 5; i++) {
             let trNode = document.createElement("tr");
             for (var a = 0; a < 5; a++) {
@@ -259,7 +221,7 @@ function populateYearTable() {
         }
 
         yearTable.appendChild(tbodyNode);
-    }else {
+    } else {
         document.getElementById('datePickerDiv').style.visibility = 'visible';
         showDatePicker = true;
         document.getElementById('yearTable').style.visibility = 'hidden';
@@ -268,24 +230,27 @@ function populateYearTable() {
 
 }
 
+//On selection of year, populate correct variables and go back to date picker
 function selectYear(selectedYear) {
     document.getElementById('datePickerDiv').style.visibility = 'visible';
-    showDatePicker=false;
+    showDatePicker = false;
     document.getElementById('yearTable').style.visibility = 'hidden';
-    showYearPicker=false;
+    showYearPicker = false;
     setYear(selectedYear);
+    populateCalender();
 
 
 }
 
+//Manages all variables that need to change when we need to change the year
 function setYear(year) {
-    currentYear=year;
+    currentYear = year;
     tableYear.innerHTML = currentYear;
 }
 
-
-function incrementYear(){
-    tbodyNode.innerHTML="";
+//Increment the total number of years in the year table
+function incrementYear() {
+    tbodyNode.innerHTML = "";
     for (var i = 0; i < 5; i++) {
         let trNode = document.createElement("tr");
         for (var a = 0; a < 5; a++) {
@@ -304,8 +269,9 @@ function incrementYear(){
     yearTable.appendChild(tbodyNode);
 }
 
-function decrementYear(){
-    tbodyNode.innerHTML="";
+//Decrement the total number of years in the year table
+function decrementYear() {
+    tbodyNode.innerHTML = "";
     for (var i = 0; i < 5; i++) {
         let trNode = document.createElement("tr");
         for (var a = 0; a < 5; a++) {
@@ -324,6 +290,7 @@ function decrementYear(){
     yearTable.appendChild(tbodyNode);
 }
 
+//Allow user to return to datepicker from year table without selecting a year
 function back() {
     document.getElementById('datePickerDiv').style.visibility = 'visible';
     showDatePicker = true;

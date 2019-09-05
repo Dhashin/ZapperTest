@@ -9,63 +9,66 @@
 <body id="theBody">
 <p></p>
 <p>
-    <input type="date" name="datePickerInput" id="datePickerInput">
+    <input type="text" name="datePickerInput" id="datePickerInput">
     <button name="datePickerButton" id="datePickerButton" type="button" onclick="openDatePicker()">
-        <img src="./datePickerIcon.png">
+        <img src="./datePickerIcon.png" class="imgDatePicker">
     </button>
 </p>
 <div id="datePickerDiv">
-<table id="datePickerTable">
-    <thead>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>
-            <button id="tableYear" onclick="populateYearTable()"></button>
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>
-            <button onclick="decrementMonth()"><-</button>
-        </td>
-        <td></td>
-        <td></td>
-        <td id="tableMonth"></td>
-        <td></td>
-        <td></td>
-        <td>
-            <button onclick="incrementMonth()">-></button>
-        </td>
+    <table id="datePickerTable" class="alignDatePicker">
+        <thead>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <button id="tableYear" onclick="populateYearTable()"></button>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <button onclick="decrementMonth()">
+                    <
+                </button>
+            </td>
+            <td></td>
+            <td></td>
+            <td id="tableMonth"></td>
+            <td></td>
+            <td></td>
+            <td>
+                <button onclick="incrementMonth()">
+                    >
+                </button>
+            </td>
 
-    </tr>
+        </tr>
 
-    </thead>
-    <tbody id="datePickerTableBody">
-    <tr>
+        </thead>
+        <tbody id="datePickerTableBody">
 
-    </tr>
+        </tr>
 
-    </tbody>
-</table>
-<table id="dateTable" style="border: 1px solid black">
-    <thead style="border: 1px solid black; background: lightgrey">
-    <tr>
-        <th>Sun</th>
-        <th>Mon</th>
-        <th>Tue</th>
-        <th>Wed</th>
-        <th>Thu</th>
-        <th>Fri</th>
-        <th>Sat</th>
-    </tr>
-    </thead>
-    <tbody id="dateTableBody"></tbody>
-</table>
-    </div>
+        </tbody>
+    </table>
+    <table id="dateTable" class="simpleBorder">
+        <thead style="border: 1px solid black; background: lightgrey">
+        <tr>
+            <th>Sun</th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+        </tr>
+        </thead>
+        <tbody id="dateTableBody"></tbody>
+    </table>
+</div>
 
 <table id="yearTable" style="visibility: hidden">
     <thead>
